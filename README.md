@@ -1,3 +1,3 @@
-#Combinatorial Testing#
+# Combinatorial Testing
 
 The purpose of this project is to simulate the existence of a singular "problem causer" within a set of variables. Any subset of variables being set to "on" or "off", so to speak, could be responsible for the problem. The purpose of this C++ project is to simulate a strategic guessing game for pinpoint what subset of variables with given states is causing a (simulated) "problem".
