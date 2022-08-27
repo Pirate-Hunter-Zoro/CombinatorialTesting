@@ -1,15 +1,9 @@
 #include "include/problem.h"
 using namespace std;
 
-// first we will make some helper functions
-template <typename T>
-int length(T arr[]){
-  // function to find the length of an array in terms of its number of elements
-  return *(&arr + 1) - arr;
-}
-// source: https://www.tutorialspoint.com/how-do-i-find-the-length-of-an-array-in-c-cplusplus
-
-void print_config(const std::unordered_set<std::pair<char,bool>, pairhash> &config){
+// first we will make a helper function to print a set of pairs
+template <typename T1, typename T2>
+void print_config(const std::unordered_set<std::pair<T1,T2>, pairhash> &config){
   // function to print out an unordered set of char/bool pairs
     if (config.size() > 0){
         std::cout << "| ";
@@ -73,7 +67,7 @@ std::unordered_set<std::pair<char,bool>, pairhash> Problem::map_to_config(bool s
     std::unordered_set<std::pair<char,bool>, pairhash> config;
     for (auto chr : this->vars){
         // whatever you placed in most recently into the set is listed first, and so on...
-        config.insert({chr, states[length(states) - 1 - config.size()]});
+        config.insert({chr, states[this->vars.size() - 1 - config.size()]});
     }
     return config;
 }
@@ -86,7 +80,7 @@ std::unordered_set<std::pair<char,bool>, pairhash> Problem::permute_until_break(
         print_config(config);
     }
 
-    int len = length(states);
+    int len = this->vars.size();
 
     if (!this->works(config)){
         return config;
@@ -124,10 +118,11 @@ std::unordered_set<std::pair<char,bool>, pairhash> Problem::find_first_random_br
 
     // first generate a random configuration of variable settings
     std::unordered_set<std::pair<char,bool>, pairhash> current_configuration;
+    int size = this->vars.size();
     for (const auto &chr : this->vars){
         bool val = rand() % 2 == 0;
         current_configuration.insert({chr, val});
-        states[length(states) - current_configuration.size()] = val;
+        states[size - 1 - current_configuration.size()] = val;
     }
     guesses++;
     
