@@ -24,11 +24,13 @@ public:
 class Problem
 {
 public:
-    Problem(const std::vector<char> the_vars = {'A','B','C','D','E'}, int size = 3);
+    Problem(std::vector<char> the_vars = {'A','B','C','D','E'}, int size = 3);
     const std::vector<char> vars; 
     std::unordered_set<std::pair<char,bool>, pairhash> minimal_set; 
-    bool works(const std::unordered_set<std::pair<char, bool> > &configuration);
-    int find_minimal_error_set();
+    bool works(const std::unordered_set<std::pair<char,bool>, pairhash> &configuration);
+    std::unordered_set<std::pair<char,bool>, pairhash> permute_until_break(int &guesses, std::unordered_set<std::pair<char,bool>, pairhash> &current_configuration, bool print=false);
+    std::unordered_set<std::pair<char,bool>, pairhash> find_first_random_break(int &guesses, bool print=false);
+    int find_minimal_error_set(bool print=false);
 };
 
 #endif
