@@ -19,7 +19,7 @@ public:
     return std::hash<T>()(x.first) ^ std::hash<U>()(x.second);
   }
 };
-// Now pairs are hashable
+// Now pairs can become hashable if we include this structure as an argument when creating an unordered_set
 
 class Problem
 {
