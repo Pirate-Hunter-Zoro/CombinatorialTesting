@@ -3,8 +3,8 @@ using namespace std;
 
 // first we will make a helper function to print a set of pairs
 template <typename T1, typename T2>
-void print_config(const std::unordered_set<std::pair<T1,T2>, pairhash> &config){
-  // function to print out an unordered set of char/bool pairs
+void print_config(const std::set<std::pair<T1,T2> > &config){
+  // function to print out a set of char/bool pairs
     if (config.size() > 0){
         std::cout << "| ";
     }
@@ -49,22 +49,23 @@ std::unordered_set<std::pair<char,bool>, pairhash> random_subset(const vector<ch
 Problem::Problem(const std::vector<char> the_vars, int size)
     : vars(the_vars), minimal_set(random_subset(the_vars, size)){}
 
-bool Problem::works(const std::unordered_set<std::pair<char,bool>, pairhash> &configuration){
-    for (const auto &couple : this->minimal_set){
-        if (configuration.find(couple) == configuration.end()){
-            // one of the required state assignments for a failure is missing
-            return true;
+bool Problem::works(const std::set<std::pair<char,bool> > &configuration){
+    int found = 0;
+    for (const auto &couple : configuration){
+        if (this->minimal_set.find(couple) != this->minimal_set.end()){
+            // one of the elements in the minimal set was matched
+            found++;
         }
     }
-    return false;
+    return found != this->minimal_set.size(); // because if all of the minimal_set elements were found, the configuration DOESN'T work
 }
 
 // ================================================================================================================================================
 // The following methods are for the purposes of generating configurations and changing them until the minimal error set is discovered
 
-std::unordered_set<std::pair<char,bool>, pairhash> Problem::map_to_config(bool states[]){
+std::set<std::pair<char,bool> > Problem::map_to_config(bool states[]){
     // given an array of booleans, match them as the states of all the variables in the class instance's configuration
-    std::unordered_set<std::pair<char,bool>, pairhash> config;
+    std::set<std::pair<char,bool> > config;
     for (auto chr : this->vars){
         // whatever you placed in most recently into the set is listed first, and so on...
         config.insert({chr, states[this->vars.size() - 1 - config.size()]});
@@ -72,9 +73,9 @@ std::unordered_set<std::pair<char,bool>, pairhash> Problem::map_to_config(bool s
     return config;
 }
 
-std::unordered_set<std::pair<char,bool>, pairhash> Problem::permute_until_break(int &guesses, bool states[], int start, bool print){
+std::set<std::pair<char,bool> > Problem::permute_until_break(int &guesses, bool states[], int start, bool print){
 
-    std::unordered_set<std::pair<char,bool>, pairhash> config = this->map_to_config(states);
+    std::set<std::pair<char,bool> > config = this->map_to_config(states);
 
     if (print){
         print_config(config);
@@ -87,7 +88,7 @@ std::unordered_set<std::pair<char,bool>, pairhash> Problem::permute_until_break(
     }
 
     if (start >= len){
-        std::unordered_set<std::pair<char,bool>, pairhash> empty;
+        std::set<std::pair<char,bool> > empty;
         return empty;
     }
 
@@ -101,7 +102,7 @@ std::unordered_set<std::pair<char,bool>, pairhash> Problem::permute_until_break(
         }
     }
     guesses++;
-    std::unordered_set<std::pair<char,bool>, pairhash> potential1 = this->permute_until_break(guesses, new_states, start+1, print);
+    std::set<std::pair<char,bool> > potential1 = this->permute_until_break(guesses, new_states, start+1, print);
     if (potential1.size() > 0){ // eventually produced a set that contains the error set
         return potential1;
     }
@@ -112,12 +113,12 @@ std::unordered_set<std::pair<char,bool>, pairhash> Problem::permute_until_break(
 
 }
 
-std::unordered_set<std::pair<char,bool>, pairhash> Problem::find_first_random_break(int &guesses, bool print){
+std::set<std::pair<char,bool> > Problem::find_first_random_break(int &guesses, bool print){
     
     bool states[this->vars.size()];
 
     // first generate a random configuration of variable settings
-    std::unordered_set<std::pair<char,bool>, pairhash> current_configuration;
+    std::set<std::pair<char,bool> > current_configuration;
     int size = this->vars.size();
     for (const auto &chr : this->vars){
         bool val = rand() % 2 == 0;
@@ -142,7 +143,7 @@ std::unordered_set<std::pair<char,bool>, pairhash> Problem::find_first_random_br
 int Problem::find_minimal_error_set(bool print){
     int guesses = 0; // initialize our number of guesses
 
-    std::unordered_set<std::pair<char,bool>, pairhash> current_configuration = this->find_first_random_break(guesses, print);
+    std::set<std::pair<char,bool> > current_configuration = this->find_first_random_break(guesses, print);
 
 
     return guesses;

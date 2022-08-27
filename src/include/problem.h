@@ -5,6 +5,7 @@
 #include<vector>
 #include<utility>
 #include<functional>
+#include<set>
 #include<unordered_set>
 #include<ctime>
 
@@ -27,10 +28,10 @@ public:
     Problem(std::vector<char> the_vars = {'A','B','C','D','E'}, int size = 3);
     const std::vector<char> vars; 
     std::unordered_set<std::pair<char,bool>, pairhash> minimal_set; 
-    bool works(const std::unordered_set<std::pair<char,bool>, pairhash> &configuration);
-    std::unordered_set<std::pair<char,bool>, pairhash> map_to_config(bool states[]);
-    std::unordered_set<std::pair<char,bool>, pairhash> permute_until_break(int &guesses, bool states[], int start=0, bool print=false);
-    std::unordered_set<std::pair<char,bool>, pairhash> find_first_random_break(int &guesses, bool print=false);
+    bool works(const std::set<std::pair<char,bool> > &configuration);
+    std::set<std::pair<char,bool> > map_to_config(bool states[]);
+    std::set<std::pair<char,bool> > permute_until_break(int &guesses, bool states[], int start=0, bool print=false);
+    std::set<std::pair<char,bool> > find_first_random_break(int &guesses, bool print=false);
     int find_minimal_error_set(bool print=false);
 };
 

@@ -18,6 +18,8 @@ int main()
     int guesses = 0;
     my_problem.find_first_random_break(guesses, true);
 
+    cout << guesses << endl;
+
     return 0;
 
 }
