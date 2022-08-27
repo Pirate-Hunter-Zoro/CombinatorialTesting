@@ -43,14 +43,21 @@ bool Problem::works(const std::unordered_set<std::pair<char,bool>, pairhash> &co
     return false;
 }
 
-std::unordered_set<std::pair<char,bool>, pairhash> Problem::permute_until_break(int &guesses, std::unordered_set<std::pair<char,bool>, pairhash> &current_configuration, bool print){
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// The following methods are for the purposes of generating configurations and changing them until the minimal error set is discovered
 
-    // set the one element in the configuration to its opposite, and then recursively call the rest
-    for (auto &couple : current_configuration){
-        std::pair<char, bool> new_couple {couple.first, !couple.second};
-        current_configuration.erase(couple);
-        current_configuration.insert(new_couple);
+std::unordered_set<std::pair<char,bool>, pairhash> Problem::map_to_config(bool states[]){
+    // given an array of booleans, match them as the states of all the variables in the class instance's configuration
+    std::unordered_set<std::pair<char,bool>, pairhash> config;
+    for (auto chr : this->vars){
+        config.insert({chr, states[config.size()]});
     }
+    return config;
+}
+
+std::unordered_set<std::pair<char,bool>, pairhash> permute_until_break(int &guesses, std::unordered_set<std::pair<char,bool>, pairhash> &current_configuration, bool print=false){
+
+
 
 }
 

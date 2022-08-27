@@ -28,6 +28,7 @@ public:
     const std::vector<char> vars; 
     std::unordered_set<std::pair<char,bool>, pairhash> minimal_set; 
     bool works(const std::unordered_set<std::pair<char,bool>, pairhash> &configuration);
+    std::unordered_set<std::pair<char,bool>, pairhash> map_to_config(bool states[]);
     std::unordered_set<std::pair<char,bool>, pairhash> permute_until_break(int &guesses, std::unordered_set<std::pair<char,bool>, pairhash> &current_configuration, bool print=false);
     std::unordered_set<std::pair<char,bool>, pairhash> find_first_random_break(int &guesses, bool print=false);
     int find_minimal_error_set(bool print=false);
