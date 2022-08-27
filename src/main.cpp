@@ -11,7 +11,7 @@ int main()
     cout << endl;
     
     for (const auto &couple: my_problem.minimal_set)
-        cout << couple.first << ", " << couple.second << endl;
+        cout << couple.first << "," << couple.second << endl;
 
     cout << endl;
 
