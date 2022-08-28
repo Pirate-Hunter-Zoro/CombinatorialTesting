@@ -15,10 +15,9 @@ int main()
 
     cout << endl;
 
-    int guesses = 0;
-    my_problem.find_first_random_break(guesses, true);
+    int guesses = my_problem.find_minimal_error_set(true);
 
-    cout << guesses << endl;
+    cout << endl << guesses << endl;
 
     return 0;
 

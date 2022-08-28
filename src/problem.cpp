@@ -15,11 +15,9 @@ void print_config(const std::set<std::pair<T1,T2> > &config){
     std::cout << std::endl;
 }
 
-// following are methods of the Problem class
-
-std::unordered_set<std::pair<char,bool>, pairhash> random_subset(const vector<char> &vars, const int &size)
+std::set<std::pair<char,bool> > random_subset(const vector<char> &vars, const int &size)
 {
-    std::unordered_set<char> subset{};
+    std::set<char> subset{};
     srand(time(NULL));
     // source: https://stackoverflow.com/questions/9459035/why-does-rand-yield-the-same-sequence-of-numbers-on-every-run
     // user responder: https://stackoverflow.com/users/251860/robert-mason
@@ -33,7 +31,7 @@ std::unordered_set<std::pair<char,bool>, pairhash> random_subset(const vector<ch
         }
     }
 
-    std::unordered_set<std::pair<char,bool>, pairhash> state_subset;
+    std::set<std::pair<char,bool> > state_subset;
     srand(time(NULL));
     for (const auto &c : subset)
     {
@@ -46,13 +44,25 @@ std::unordered_set<std::pair<char,bool>, pairhash> random_subset(const vector<ch
 
 }
 
+std::unordered_set<pair<char, bool>, pairhash> make_unordered(const std::set<pair<char, bool> > &config){
+    std::unordered_set<pair<char, bool>, pairhash> unordered;
+    for (const auto &pair : config){
+        unordered.insert({pair.first, pair.second});
+    }
+    return unordered;
+}
+
+// following are methods of the Problem class
+
 Problem::Problem(const std::vector<char> the_vars, int size)
-    : vars(the_vars), minimal_set(random_subset(the_vars, size)){}
+    : vars(the_vars), minimal_set(random_subset(the_vars, size)){
+        unordered_min = make_unordered(minimal_set);
+    }
 
 bool Problem::works(const std::set<std::pair<char,bool> > &configuration){
     int found = 0;
     for (const auto &couple : configuration){
-        if (this->minimal_set.find(couple) != this->minimal_set.end()){
+        if (this->unordered_min.find(couple) != this->unordered_min.end()){
             // one of the elements in the minimal set was matched
             found++;
         }
@@ -63,17 +73,23 @@ bool Problem::works(const std::set<std::pair<char,bool> > &configuration){
 // ================================================================================================================================================
 // The following methods are for the purposes of generating configurations and changing them until the minimal error set is discovered
 
-std::set<std::pair<char,bool> > Problem::map_to_config(bool states[]){
+std::set<std::pair<char,bool> > Problem::map_to_config(vector<bool> states){
     // given an array of booleans, match them as the states of all the variables in the class instance's configuration
     std::set<std::pair<char,bool> > config;
     for (auto chr : this->vars){
-        // whatever you placed in most recently into the set is listed first, and so on...
-        config.insert({chr, states[this->vars.size() - 1 - config.size()]});
+        config.insert({chr, states.at(config.size())});
     }
     return config;
 }
 
-std::set<std::pair<char,bool> > Problem::permute_until_break(int &guesses, bool states[], int start, bool print){
+void Problem::map_to_states(const std::set<std::pair<char,bool> > &config, vector<bool> &states){
+    // given a configuration, simply return an array of the respective boolean values for on or off
+    for (const auto &couple : config){
+        states.push_back(couple.second);
+    }
+}
+
+std::set<std::pair<char,bool> > Problem::permute_until_break(int &guesses, const vector<bool> &states, int start, bool print){
 
     std::set<std::pair<char,bool> > config = this->map_to_config(states);
 
@@ -93,12 +109,12 @@ std::set<std::pair<char,bool> > Problem::permute_until_break(int &guesses, bool 
     }
 
     // change the first state, then recursively call the rest
-    bool new_states[len];
+    vector<bool> new_states;
     for (size_t i(0); i<len; i++){
         if (i == start){
-            new_states[i] = !states[i];
+            new_states.push_back(!states.at(i));
         } else {
-            new_states[i] = states[i];
+            new_states.push_back(states.at(i));
         }
     }
     guesses++;
@@ -115,15 +131,14 @@ std::set<std::pair<char,bool> > Problem::permute_until_break(int &guesses, bool 
 
 std::set<std::pair<char,bool> > Problem::find_first_random_break(int &guesses, bool print){
     
-    bool states[this->vars.size()];
+    vector<bool> states;
 
     // first generate a random configuration of variable settings
     std::set<std::pair<char,bool> > current_configuration;
-    int size = this->vars.size();
     for (const auto &chr : this->vars){
         bool val = rand() % 2 == 0;
         current_configuration.insert({chr, val});
-        states[size - 1 - current_configuration.size()] = val;
+        states.push_back(val);
     }
     guesses++;
     
@@ -143,8 +158,44 @@ std::set<std::pair<char,bool> > Problem::find_first_random_break(int &guesses, b
 int Problem::find_minimal_error_set(bool print){
     int guesses = 0; // initialize our number of guesses
 
+    // brute force find the first instance of failure
     std::set<std::pair<char,bool> > current_configuration = this->find_first_random_break(guesses, print);
 
+    if (print){
+        cout << endl;
+    }
+
+    // obtain an array of the boolean values for on/off
+    vector<bool> states; 
+    this->map_to_states(current_configuration, states);
+
+    std::set<std::pair<char, bool> > new_config;
+    for (size_t index(0); index < this->vars.size(); index++){
+        states.at(index) = !states.at(index);
+        new_config = this->map_to_config(states);
+        guesses++;
+        if (print){
+            print_config(new_config);
+        }
+        if (!this->works(new_config)){
+            // pair was not important for the error set
+            if (print){
+                cout << "Erasing: " << this->vars.at(index) << ", " << !states.at(index) << endl;
+            }
+            pair<char, bool> this_pair {this->vars.at(index), !states.at(index)};
+            current_configuration.erase(this_pair);
+            // search for what the pair was originally to remove it
+        } else {
+            // pair WAS important for the error set
+            states.at(index) = !states.at(index);
+            // switch back
+        }
+    }
+
+    if (print){
+        cout << "\nMinimal Error Set:" << endl;
+        print_config(current_configuration);
+    }
 
     return guesses;
 
