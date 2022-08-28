@@ -25,7 +25,7 @@ public:
 class Problem
 {
 public:
-    Problem(std::vector<char> the_vars = {'A','B','C','D','E'}, int size = 3);
+    Problem(std::vector<char> the_vars = {'A','B','C','D','E'});
     const std::vector<char> vars; 
     std::set<std::pair<char,bool> > minimal_set; 
     std::unordered_set<std::pair<char,bool>, pairhash> unordered_min;

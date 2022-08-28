@@ -54,8 +54,10 @@ std::unordered_set<pair<char, bool>, pairhash> make_unordered(const std::set<pai
 
 // following are methods of the Problem class
 
-Problem::Problem(const std::vector<char> the_vars, int size)
-    : vars(the_vars), minimal_set(random_subset(the_vars, size)){
+Problem::Problem(const std::vector<char> the_vars)
+    : vars(the_vars){
+        srand(time(NULL));
+        minimal_set = random_subset(the_vars, rand() % the_vars.size());
         unordered_min = make_unordered(minimal_set);
     }
 
