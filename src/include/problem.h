@@ -42,7 +42,7 @@ public:
     int find_minimal_error_set(bool print=false);
 
     double percentageCovered(const std::vector<std::vector<std::pair<char, bool> > > &state_vectors, int size);
-    int recSubsets(const std::vector<std::pair<char, bool> > &config, std::unordered_set<std::pair<char, bool> > &found, int size, int start);
+    int recSubsets(const std::vector<std::pair<char, bool> > &config, std::unordered_set<std::string> &found, int size, int start);
 
 };
 

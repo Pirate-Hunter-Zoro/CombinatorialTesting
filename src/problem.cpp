@@ -242,7 +242,7 @@ double Problem::percentageCovered(const std::vector<std::vector<std::pair<char, 
 
     int covered = 0;
 
-    unordered_set<pair<char, bool> > found;
+    unordered_set<string> found;
 
     for (const vector<pair<char, bool> > &config : state_vectors){
         covered += this->recSubsets(config, found, size, 0);
@@ -252,7 +252,7 @@ double Problem::percentageCovered(const std::vector<std::vector<std::pair<char, 
 
 }
 
-int Problem::recSubsets(const std::vector<std::pair<char, bool> > &config, std::unordered_set<std::pair<char, bool> > &found, int size, int start){
+int Problem::recSubsets(const std::vector<std::pair<char, bool> > &config, std::unordered_set<std::string> &found, int size, int start){
 
     return 0;
 
