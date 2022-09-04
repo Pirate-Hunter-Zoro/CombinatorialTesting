@@ -82,6 +82,35 @@ int choose(int n, int k){
 
 }
 
+template <typename T>
+vector<vector<T> > subsets(const vector<T> &vec, int size){
+
+    vector<vector<T> > all_subsets;
+
+    if (size > vec.size()){
+        // no ways to do that
+        return all_subsets;
+    }
+
+    if (size == vec.size()){
+        // only one way to do that
+        all_subsets.push_back(vec);
+        return all_subsets;
+    } else if (size == 0){
+        // only one way to do that
+        vector<T> empty;
+        all_subsets.push_back(empty);
+        return all_subsets;
+    }
+
+    // all of the base cases are done now
+
+    // TODO...
+
+    return all_subsets;
+
+}
+
 //================================================================================================================
 // following are methods of the Problem class
 
