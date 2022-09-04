@@ -1,7 +1,9 @@
 #include "include/problem.h"
 using namespace std;
 
-// first we will make a helper function to print a set of pairs
+//================================================================================================================
+// helper functions
+
 template <typename T1, typename T2>
 void print_config(const std::set<std::pair<T1,T2> > &config){
   // function to print out a set of char/bool pairs
@@ -15,8 +17,8 @@ void print_config(const std::set<std::pair<T1,T2> > &config){
     std::cout << std::endl;
 }
 
-std::set<std::pair<char,bool> > random_subset(const vector<char> &vars, const int &size)
-{
+std::set<std::pair<char,bool> > random_subset(const vector<char> &vars, const int &size){
+    // generate a subset of a given size
     std::set<char> subset{};
     srand(time(NULL));
     // source: https://stackoverflow.com/questions/9459035/why-does-rand-yield-the-same-sequence-of-numbers-on-every-run
@@ -45,6 +47,7 @@ std::set<std::pair<char,bool> > random_subset(const vector<char> &vars, const in
 }
 
 std::unordered_set<pair<char, bool>, pairhash> make_unordered(const std::set<pair<char, bool> > &config){
+    // converts the ordered set into an unordered set with the same elements
     std::unordered_set<pair<char, bool>, pairhash> unordered;
     for (const auto &pair : config){
         unordered.insert({pair.first, pair.second});
@@ -52,10 +55,38 @@ std::unordered_set<pair<char, bool>, pairhash> make_unordered(const std::set<pai
     return unordered;
 }
 
+int choose(int n, int k){
+    // compute and return n choose k
+
+    if (k == 0 || k == n){
+        return 1;
+    }
+
+    if (k == 1 || k == n-1){
+        return n;
+    }
+
+    int result = 1;
+    int i = n;
+    int j = 2;
+    while (i > n - k && j <= k){
+        result *= i;
+        if (result % j == 0){
+            result /= j;
+            j++;
+        }
+        i--;
+    }
+
+    return result;
+
+}
+
+//================================================================================================================
 // following are methods of the Problem class
 
 Problem::Problem(const std::vector<char> the_vars)
-    : vars(the_vars){
+    : vars(the_vars), numVars(the_vars.size()){
         srand(time(NULL));
         minimal_set = random_subset(the_vars, rand() % the_vars.size());
         unordered_min = make_unordered(minimal_set);
@@ -200,5 +231,29 @@ int Problem::find_minimal_error_set(bool print){
     }
 
     return guesses;
+
+}
+
+double Problem::percentageCovered(const std::vector<std::vector<std::pair<char, bool> > > &state_vectors, int size){
+    // given a set of configurations, determine the combinatorial coverage of this set assuming a minimal error set of size 'size'
+
+    int total = choose(this->numVars, size) * pow(2, size);
+    // total number of possible error sets of the given size
+
+    int covered = 0;
+
+    unordered_set<pair<char, bool> > found;
+
+    for (const vector<pair<char, bool> > &config : state_vectors){
+        covered += this->recSubsets(config, found, size, 0);
+    }
+
+    return 1.0 * covered / total;
+
+}
+
+int Problem::recSubsets(const std::vector<std::pair<char, bool> > &config, std::unordered_set<std::pair<char, bool> > &found, int size, int start){
+
+    return 0;
 
 }

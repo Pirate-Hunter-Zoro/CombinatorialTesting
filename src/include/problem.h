@@ -8,6 +8,7 @@
 #include<set>
 #include<unordered_set>
 #include<ctime>
+#include<cmath>
 
 // The following stucture comes from the following source:
 // https://stackoverflow.com/questions/20590656/error-for-hash-function-of-pair-of-ints
@@ -29,6 +30,7 @@ public:
     const std::vector<char> vars; 
     std::set<std::pair<char,bool> > minimal_set; 
     std::unordered_set<std::pair<char,bool>, pairhash> unordered_min;
+    const int numVars;
 
     bool works(const std::set<std::pair<char,bool> > &configuration);
 
@@ -38,6 +40,10 @@ public:
     std::set<std::pair<char,bool> > permute_until_break(int &guesses, const std::vector<bool> &states, int start=0, bool print=false);
     std::set<std::pair<char,bool> > find_first_random_break(int &guesses, bool print=false);
     int find_minimal_error_set(bool print=false);
+
+    double percentageCovered(const std::vector<std::vector<std::pair<char, bool> > > &state_vectors, int size);
+    int recSubsets(const std::vector<std::pair<char, bool> > &config, std::unordered_set<std::pair<char, bool> > &found, int size, int start);
+
 };
 
 #endif
