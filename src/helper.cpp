@@ -87,10 +87,9 @@ int Helper::choose(int n, int k){
 }
 
 
-template <typename T>
-std::vector<std::vector<T> > Helper::subsets(const std::vector<T> &vec, int size){
+std::vector<std::vector<int> > Helper::subsets(std::vector<int> &vec, int size){
 
-    std::vector<std::vector<T> > all_subsets;
+    std::vector<std::vector<int> > all_subsets;
 
     if (size > vec.size()){
         // no ways to do that
@@ -103,14 +102,36 @@ std::vector<std::vector<T> > Helper::subsets(const std::vector<T> &vec, int size
         return all_subsets;
     } else if (size == 0){
         // only one way to do that
-        std::vector<T> empty;
+        std::vector<int> empty;
         all_subsets.push_back(empty);
         return all_subsets;
     }
 
     // all of the base cases are done now
 
-    // TODO...
+    while (vec.size() > size){
+        // take out the first element and find all subsets of size-1 remaining
+        // then tack on this first element
+        // i.e. one iteration of this while loop finds all possible subsets of the given size where the first element MUST be included
+        int first = vec.at(0);
+        vec.erase(vec.begin());
+        vector<int> copy = vec;
+        vector<vector<int> > lastSubsets = this->subsets(copy, size-1);
+        for (auto &v : lastSubsets){
+            v.push_back(first);
+            all_subsets.push_back(v);
+        }
+    }
+
+    // now that vec.size() == size
+    all_subsets.push_back(vec);
 
     return all_subsets;
+}
+
+void Helper::print_vector(const std::vector<int> &vec){
+    for (const auto &i : vec){
+        cout << i << " ";
+    }
+    cout << endl;
 }

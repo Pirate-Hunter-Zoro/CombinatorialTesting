@@ -39,8 +39,8 @@ public:
     
     int choose(int n, int k);
 
-    template <typename T>
-    std::vector<std::vector<T> > subsets(const std::vector<T> &vec, int size);
+    std::vector<std::vector<int> > subsets(std::vector<int> &vec, int size);
+    void print_vector(const std::vector<int> &vec);
 
 };
 
