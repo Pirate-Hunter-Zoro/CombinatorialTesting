@@ -1,4 +1,4 @@
-#include "include/problem.h"
+#include "include/coverage.h"
 using namespace std;
 
 int main()
