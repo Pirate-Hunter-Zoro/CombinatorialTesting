@@ -4,7 +4,7 @@ using namespace std;
 //=======================================================================================================
 // Methods
 
-Coverage::Coverage(std::vector<char> the_vars)
+Coverage::Coverage(vector<char> the_vars)
     : Problem(the_vars)
     {}
 
@@ -26,7 +26,7 @@ double Coverage::percentageCovered(int size){
 
 }
 
-int Coverage::recSubsets(const std::vector<std::pair<char, bool> > &config, std::unordered_set<std::string> &found, int size, int start){
+int Coverage::recSubsets(const vector<pair<char, bool> > &config, unordered_set<string> &found, int size, int start){
 
     return 0;
 

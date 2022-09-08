@@ -4,14 +4,14 @@ using namespace std;
 //================================================================================================================
 // following are methods of the Problem class
 
-Problem::Problem(const std::vector<char> the_vars)
+Problem::Problem(const vector<char> the_vars)
     : Helper(), vars(the_vars), numVars(the_vars.size()){
         srand(time(NULL));
         minimal_set = this->random_subset(the_vars, rand() % the_vars.size());
         unordered_min = this->make_unordered(minimal_set);
     }
 
-bool Problem::works(const std::set<std::pair<char,bool> > &configuration){
+bool Problem::works(const set<pair<char,bool> > &configuration){
     int found = 0;
     for (const auto &couple : configuration){
         if (this->unordered_min.find(couple) != this->unordered_min.end()){
@@ -25,25 +25,25 @@ bool Problem::works(const std::set<std::pair<char,bool> > &configuration){
 // ================================================================================================================================================
 // The following methods are for the purposes of generating configurations and changing them until the minimal error set is discovered
 
-std::set<std::pair<char,bool> > Problem::map_to_config(vector<bool> states){
+set<pair<char,bool> > Problem::map_to_config(vector<bool> states){
     // given an array of booleans, match them as the states of all the variables in the class instance's configuration
-    std::set<std::pair<char,bool> > config;
+    set<pair<char,bool> > config;
     for (auto chr : this->vars){
         config.insert({chr, states.at(config.size())});
     }
     return config;
 }
 
-void Problem::map_to_states(const std::set<std::pair<char,bool> > &config, vector<bool> &states){
+void Problem::map_to_states(const set<pair<char,bool> > &config, vector<bool> &states){
     // given a configuration, simply return an array of the respective boolean values for on or off
     for (const auto &couple : config){
         states.push_back(couple.second);
     }
 }
 
-std::set<std::pair<char,bool> > Problem::permute_until_break(int &guesses, const vector<bool> &states, int start, bool print){
+set<pair<char,bool> > Problem::permute_until_break(int &guesses, const vector<bool> &states, int start, bool print){
 
-    std::set<std::pair<char,bool> > config = this->map_to_config(states);
+    set<pair<char,bool> > config = this->map_to_config(states);
 
     if (print){
         this->print_config(config);
@@ -56,7 +56,7 @@ std::set<std::pair<char,bool> > Problem::permute_until_break(int &guesses, const
     }
 
     if (start >= len){
-        std::set<std::pair<char,bool> > empty;
+        set<pair<char,bool> > empty;
         return empty;
     }
 
@@ -70,7 +70,7 @@ std::set<std::pair<char,bool> > Problem::permute_until_break(int &guesses, const
         }
     }
     guesses++;
-    std::set<std::pair<char,bool> > potential1 = this->permute_until_break(guesses, new_states, start+1, print);
+    set<pair<char,bool> > potential1 = this->permute_until_break(guesses, new_states, start+1, print);
     if (potential1.size() > 0){ // eventually produced a set that contains the error set
         return potential1;
     }
@@ -81,12 +81,12 @@ std::set<std::pair<char,bool> > Problem::permute_until_break(int &guesses, const
 
 }
 
-std::set<std::pair<char,bool> > Problem::find_first_random_break(int &guesses, bool print){
+set<pair<char,bool> > Problem::find_first_random_break(int &guesses, bool print){
     
     vector<bool> states;
 
     // first generate a random configuration of variable settings
-    std::set<std::pair<char,bool> > current_configuration;
+    set<pair<char,bool> > current_configuration;
     for (const auto &chr : this->vars){
         bool val = rand() % 2 == 0;
         current_configuration.insert({chr, val});
@@ -111,7 +111,7 @@ int Problem::find_minimal_error_set(bool print){
     int guesses = 0; // initialize our number of guesses
 
     // brute force find the first instance of failure
-    std::set<std::pair<char,bool> > current_configuration = this->find_first_random_break(guesses, print);
+    set<pair<char,bool> > current_configuration = this->find_first_random_break(guesses, print);
 
     if (print){
         cout << endl;
@@ -121,7 +121,7 @@ int Problem::find_minimal_error_set(bool print){
     vector<bool> states; 
     this->map_to_states(current_configuration, states);
 
-    std::set<std::pair<char, bool> > new_config;
+    set<pair<char, bool> > new_config;
     for (size_t index(0); index < this->vars.size(); index++){
         states.at(index) = !states.at(index);
         new_config = this->map_to_config(states);

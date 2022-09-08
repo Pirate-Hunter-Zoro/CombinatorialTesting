@@ -39,8 +39,8 @@ public:
     
     int choose(int n, int k);
 
-    std::vector<std::vector<int> > subsets(std::vector<int> &vec, int size);
-    void print_vector(const std::vector<int> &vec);
+    std::set<std::set<std::pair<char, bool> > > subsets(std::set<std::pair<char, bool> > &s, int size);
+    void print_set(const std::set<std::pair<char, bool> > &s);
 
 };
 
