@@ -73,12 +73,12 @@ int Helper::choose(int n, int k){
 
     int result = 1;
     int i = n;
-    int j = 2;
-    while (i > n - k && j <= k){
+    int j = k;
+    while (i > n - k && j > 0){
         result *= i;
         if (result % j == 0){
             result /= j;
-            j++;
+            j--;
         }
         i--;
     }
