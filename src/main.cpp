@@ -1,4 +1,5 @@
 #include "include/coverage.h"
+#include "include/totalCoverage.h"
 using namespace std;
 
 int main()
