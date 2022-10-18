@@ -8,7 +8,7 @@ int main()
 
 //=======================================================================================================
     // testing minimal error set searcher
-    Problem my_problem = Problem();
+    System my_problem = System();
     for (const auto &chr: my_problem.vars)
         cout << chr << endl;
     cout << endl;

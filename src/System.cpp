@@ -1,17 +1,17 @@
-#include "include/problem.h"
+#include "include/System.h"
 using namespace std;
 
 //================================================================================================================
-// following are methods of the Problem class
+// following are methods of the System class
 
-Problem::Problem(const vector<char> the_vars)
-    : Helper(), vars(the_vars), numVars(the_vars.size()){
+System::System(const vector<char> the_vars)
+    : vars(the_vars), numVars(the_vars.size()){
         srand(time(NULL));
         minimal_set = this->random_subset(the_vars, rand() % the_vars.size());
         unordered_min = this->make_unordered(minimal_set);
     }
 
-bool Problem::works(const set<pair<char,bool> > &configuration){
+bool System::works(const set<pair<char,bool> > &configuration){
     int found = 0;
     for (const auto &couple : configuration){
         if (this->unordered_min.find(couple) != this->unordered_min.end()){
@@ -22,10 +22,34 @@ bool Problem::works(const set<pair<char,bool> > &configuration){
     return found != this->minimal_set.size(); // because if all of the minimal_set elements were found, the configuration DOESN'T work
 }
 
+void System::print_config(const set<pair<char, bool> > &config)
+{
+    // function to print out a set of char/bool pairs
+    if (config.size() > 0)
+    {
+        cout << "| ";
+    }
+    for (const auto &couple : config)
+    {
+        // 'cout << boolalpha' is an option, but the preference is to leave the printing as 0 or 1
+        cout << couple.first << ": " << couple.second << " | ";
+    }
+    cout << endl;
+}
+
+void System::print_set_config(const set<pair<char, bool> > &s)
+{
+    for (const auto &i : s)
+    {
+        cout << i.first << ":" << i.second << " ";
+    }
+    cout << endl;
+}
+
 // ================================================================================================================================================
 // The following methods are for the purposes of generating configurations and changing them until the minimal error set is discovered
 
-set<pair<char,bool> > Problem::map_to_config(vector<bool> states){
+set<pair<char,bool> > System::map_to_config(vector<bool> states){
     // given an array of booleans, match them as the states of all the variables in the class instance's configuration
     set<pair<char,bool> > config;
     for (auto chr : this->vars){
@@ -34,14 +58,14 @@ set<pair<char,bool> > Problem::map_to_config(vector<bool> states){
     return config;
 }
 
-void Problem::map_to_states(const set<pair<char,bool> > &config, vector<bool> &states){
+void System::map_to_states(const set<pair<char,bool> > &config, vector<bool> &states){
     // given a configuration, simply return an array of the respective boolean values for on or off
     for (const auto &couple : config){
         states.push_back(couple.second);
     }
 }
 
-set<pair<char,bool> > Problem::permute_until_break(int &guesses, const vector<bool> &states, int start, bool print){
+set<pair<char,bool> > System::permute_until_break(int &guesses, const vector<bool> &states, int start, bool print){
 
     set<pair<char,bool> > config = this->map_to_config(states);
 
@@ -81,7 +105,7 @@ set<pair<char,bool> > Problem::permute_until_break(int &guesses, const vector<bo
 
 }
 
-set<pair<char,bool> > Problem::find_first_random_break(int &guesses, bool print){
+set<pair<char,bool> > System::find_first_random_break(int &guesses, bool print){
     
     vector<bool> states;
 
@@ -107,7 +131,7 @@ set<pair<char,bool> > Problem::find_first_random_break(int &guesses, bool print)
 
 }
 
-int Problem::find_minimal_error_set(bool print){
+int System::find_minimal_error_set(bool print){
     int guesses = 0; // initialize our number of guesses
 
     // brute force find the first instance of failure

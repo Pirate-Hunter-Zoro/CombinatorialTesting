@@ -1,64 +1,39 @@
 #include "include/helper.h"
 using namespace std;
 
-Helper::Helper(){
-    // do nothing
-}
-
 //================================================================================================================
 // Helper class methods
 
-void Helper::print_config(const set<pair<char,bool> > &config){
-  // function to print out a set of char/bool pairs
-    if (config.size() > 0){
-        cout << "| ";
-    }
-    for (const auto &couple : config){
-        // 'cout << boolalpha' is an option, but the preference is to leave the printing as 0 or 1
-        cout << couple.first << ": " << couple.second << " | ";
-    }
-    cout << endl;
-}
-
-
-set<pair<char,bool> > Helper::random_subset(const vector<char> &vars, const int &size){
+template <typename T>
+set<T> Helper::random_subset(const vector<T> &vars, const int &size){
     // generate a subset of a given size
-    set<char> subset{};
+    set<T> subset{};
     srand(time(NULL));
     // source: https://stackoverflow.com/questions/9459035/why-does-rand-yield-the-same-sequence-of-numbers-on-every-run
     // user responder: https://stackoverflow.com/users/251860/robert-mason
     while (subset.size() < size)
     {
         int index = rand() % vars.size();
-        char c = vars.at(index);
+        T c = vars.at(index);
         if (subset.find(c) == subset.end())
         {
             subset.insert(c);
         }
     }
 
-    set<pair<char,bool> > state_subset;
-    srand(time(NULL));
-    for (const auto &c : subset)
-    {
-        int random = rand();
-        bool state = random % 2 == 0;
-        state_subset.insert({c, state});
-    }
-
-    return state_subset;
+    return subset;
 }
 
-
-unordered_set<pair<char, bool>, pairhash> Helper::make_unordered(const set<pair<char, bool> > &config){
+template <typename T, typename Hasher>
+unordered_set<T, Hasher> Helper::make_unordered(const set<T> &config)
+{
     // converts the ordered set into an unordered set with the same elements
-    unordered_set<pair<char, bool>, pairhash> unordered;
-    for (const auto &pair : config){
-        unordered.insert({pair.first, pair.second});
+    unordered_set<T, Hasher> unordered;
+    for (const T element : config){
+        unordered.insert(element);
     }
     return unordered;
 }
-
 
 int Helper::choose(int n, int k){
     // compute and return n choose k
@@ -86,8 +61,9 @@ int Helper::choose(int n, int k){
     return result;
 }
 
-
-set<set<pair<char, bool> > > Helper::subsets(set<pair<char, bool> > &s, int size){
+template <typename T>
+set<set<T> > Helper::subsets(set<T> &s, int size)
+{
     // this method WILL modify the configuration for the purposes of not having to make a bunch of copies
     // if this is not preferred, remove the '&' in front of the 's'
 
@@ -118,7 +94,7 @@ set<set<pair<char, bool> > > Helper::subsets(set<pair<char, bool> > &s, int size
         pair<char, bool> first = *s.begin();
         s.erase(s.begin());
         set<pair<char, bool> > copy = s;
-        set<set<pair<char, bool> > > lastSubsets = this->subsets(copy, size-1);
+        set<set<pair<char, bool> > > lastSubsets = Helper::subsets(copy, size-1);
         for (auto subset : lastSubsets){
             // I would copy by address but for some reason each subset is 'const' and I cannot figure out how to change that...
             subset.insert(first);
@@ -130,11 +106,4 @@ set<set<pair<char, bool> > > Helper::subsets(set<pair<char, bool> > &s, int size
     all_subsets.insert(s);
 
     return all_subsets;
-}
-
-void Helper::print_set(const set<pair<char, bool> > &s){
-    for (const auto &i : s){
-        cout << i.first << ":" << i.second << " ";
-    }
-    cout << endl;
 }

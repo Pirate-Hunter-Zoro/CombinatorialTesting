@@ -5,7 +5,7 @@ using namespace std;
 // Methods
 
 Coverage::Coverage(vector<char> the_vars)
-    : Problem(the_vars)
+    : System(the_vars)
     {
 
     }

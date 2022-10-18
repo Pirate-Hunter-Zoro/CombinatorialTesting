@@ -3,7 +3,7 @@
 
 #include "problem.h"
 
-class Coverage: public Problem{
+class Coverage: public System{
 
 public:
     Coverage(std::vector<char> the_vars = {'A','B','C','D','E'});
