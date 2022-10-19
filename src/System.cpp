@@ -7,8 +7,8 @@ using namespace std;
 System::System(const vector<char> the_vars)
     : vars(the_vars), numVars(the_vars.size()){
         srand(time(NULL));
-        minimal_set = this->random_subset(the_vars, rand() % the_vars.size());
-        unordered_min = this->make_unordered(minimal_set);
+        minimal_set = this->assign_values(Helper::random_subset(the_vars, rand() % the_vars.size()));
+        unordered_min = Helper::make_unordered(minimal_set);
     }
 
 bool System::works(const set<pair<char,bool> > &configuration){
@@ -44,6 +44,14 @@ void System::print_set_config(const set<pair<char, bool> > &s)
         cout << i.first << ":" << i.second << " ";
     }
     cout << endl;
+}
+
+// ================================================================================================================================================
+// The following method is responsible for taking in a set of variables (characters), and outputting a set of char/bool pairs
+set<pair<char,bool> > assign_values(const set<char> &varSet){
+    set<pair<char,bool> > configuration;
+
+    return configuration;
 }
 
 // ================================================================================================================================================

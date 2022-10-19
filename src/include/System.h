@@ -20,8 +20,10 @@ class System: public Helper
 
 public:
 
-    /* Constructor for the System, responsible for  */
+    /* Constructor for the System, responsible for setting up the minimal error set as both an ordered and unordered set, as well as the vars and numVars members */
     System(std::vector<char> the_vars = {'A','B','C','D','E'});
+
+    std::set<std::pair<char,bool> > assign_values(const std::set<char> &varSet);
 
     void print_config(const std::set<std::pair<char, bool> > &config);
 

@@ -3,8 +3,6 @@
 
 #include<iostream>
 #include<vector>
-#include<utility>
-#include<functional>
 #include<set>
 #include<unordered_set>
 #include<ctime>
