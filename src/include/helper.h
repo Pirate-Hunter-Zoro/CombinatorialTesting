@@ -8,6 +8,8 @@
 #include<ctime>
 #include<cmath>
 
+#include "PairHash.h"
+
 //================================================================================================================
 
 /* This is a class which will only contain static methods that will be useful to reference */
@@ -16,23 +18,19 @@ class Helper{
 public:
 
     /* A method to generate a random subset of a given size on a vector of characters */
-    template <typename T>
-    static std::set<T> random_subset(const std::vector<T> &vars, const int &size);
+    std::set<char> random_subset(const std::vector<char> &vars, const int &size);
 
     /* A method to take in a set of items and return an unordered set of the same elements */
-    template <typename T, typename Hasher>
-    static std::unordered_set<T, Hasher> make_unordered(const std::set<T> &config, Hasher hasher);
-    
+    std::unordered_set<std::pair<char, bool>, PairHash> make_unordered(const std::set<std::pair<char, bool> > &config);
+
     /* A method to calculate the number of possible subsets of size k there are out of a population of n different elements */
-    static int choose(int n, int k);
+    int choose(int n, int k);
 
     /* A method that, given a set of elements, returns a set of sets containing all possible subsets of the original set of a given size */
-    template <typename T>
-    static std::set<std::set<T> > subsets(std::set<T> &s, int size);
+    std::set<std::set<std::pair<char, bool> > > subsets(std::set<std::pair<char, bool> > &s, int size);
 
     /* A method that, given a vector of elements, returns a set consisting of the same elements */
-    template <typename T>
-    static std::set<T> convert_to_set(const std::vector<T> &vec);
+    std::set<char> convert_to_set(const std::vector<char> &vec);
 
 };
 

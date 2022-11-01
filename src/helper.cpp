@@ -7,22 +7,20 @@ using namespace std;
 /**
  * @brief Given a generic vector, generate and return random subset of the elements, choosing as many elements as specified with size
  * 
- * @tparam T 
  * @param vars 
  * @param size 
- * @return set<T> 
+ * @return set<pair<char,bool> > 
  */
-template <typename T>
-set<T> Helper::random_subset(const vector<T> &vars, const int &size){
+set<char> Helper::random_subset(const vector<char> &vars, const int &size){
     // generate a subset of a given size
-    set<T> subset{};
+    set<char> subset{};
     srand(time(NULL));
     // source: https://stackoverflow.com/questions/9459035/why-does-rand-yield-the-same-sequence-of-numbers-on-every-run
     // user responder: https://stackoverflow.com/users/251860/robert-mason
     while (subset.size() < size)
     {
         int index = rand() % vars.size();
-        T c = vars.at(index);
+        char c = vars.at(index);
         if (subset.find(c) == subset.end())
         {
             subset.insert(c);
@@ -35,18 +33,15 @@ set<T> Helper::random_subset(const vector<T> &vars, const int &size){
 /**
  * @brief Given a generic ordered set, return an unordered set containing the same values that uses the specified hasher
  * 
- * @tparam T 
- * @tparam Hasher 
- * @param config 
+ * @param config - a set of char/bool pairs 
  * @param hasher 
- * @return unordered_set<T, Hasher> 
+ * @return unordered_set<pair<char, bool>, Hasher> 
  */
-template <typename T, typename Hasher>
-unordered_set<T, Hasher> Helper::make_unordered(const set<T> &config, Hasher hasher)
+unordered_set<pair<char, bool>, PairHash> Helper::make_unordered(const set<pair<char, bool> > &config)
 {
     // converts the ordered set into an unordered set with the same elements
-    unordered_set<T, Hasher> unordered;
-    for (const T element : config){
+    unordered_set<pair<char, bool>, PairHash> unordered;
+    for (auto element : config){
         unordered.insert(element);
     }
     return unordered;
@@ -88,13 +83,11 @@ int Helper::choose(int n, int k){
 /**
  * @brief Given a generic set, return a set of all the possible subsets of a given size of this set
  * 
- * @tparam T 
  * @param s 
  * @param size 
- * @return set<set<T> > 
+ * @return set<set<pair<char, bool> > 
  */
-template <typename T>
-set<set<T> > Helper::subsets(set<T> &s, int size)
+set<set<pair<char, bool> > > Helper::subsets(set<pair<char,bool> > &s, int size)
 {
     // this method WILL modify the configuration for the purposes of not having to make a bunch of copies
     // if this is not preferred, remove the '&' in front of the 's' here and in the Helper.h file
@@ -143,13 +136,12 @@ set<set<T> > Helper::subsets(set<T> &s, int size)
 /**
  * @brief Method to convert a generic vector into a set with the same elements
  * 
- * @tparam T 
+ * @tparam char
  * @param vec 
- * @return set<T> 
+ * @return set<char> 
  */
-template<typename T> 
-set<T> Helper::convert_to_set(const vector<T> &vec){
-    set<T> the_set;
+set<char> Helper::convert_to_set(const vector<char> &vec){
+    set<char> the_set;
     for (const auto item : vec)
         the_set.insert(item);
     return the_set;

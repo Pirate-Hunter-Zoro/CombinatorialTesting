@@ -9,10 +9,9 @@
 struct PairHash
 {
 public:
-    template <typename T, typename U>
-    std::size_t operator()(const std::pair<T, U> &x) const
+    std::size_t operator()(const std::pair<char, bool> &x) const
     {
-        return std::hash<T>()(x.first) ^ std::hash<U>()(x.second);
+        return std::hash<char>()(x.first) ^ std::hash<bool>()(x.second);
     }
 };
 // Now pairs can become hashable if we include this structure as an argument when creating an unordered_set

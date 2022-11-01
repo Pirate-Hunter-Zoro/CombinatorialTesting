@@ -2,7 +2,7 @@
 using namespace std;
 
 //================================================================================================================
-// following are methods of the System class
+// following are methods of the System class 
 
 /**
  * @brief Construct a new System:: System object
@@ -11,11 +11,13 @@ using namespace std;
  */
 System::System(const vector<char> the_vars)
     : vars(the_vars), numVars(the_vars.size()){
+        // initialize the helper
+        helper = Helper();
         srand(time(NULL));
         // generate a random subset of the variables to make up the minimal error set, and randomly set each value to on or off for the configuration
-        minimal_set = this->assign_values(Helper::random_subset(the_vars, rand() % the_vars.size()));
+        minimal_set = this->assign_values(helper.random_subset(the_vars, rand() % the_vars.size()));
         // create an unordered version for faster searching
-        unordered_min = Helper::make_unordered(minimal_set, PairHash());
+        unordered_min = helper.make_unordered(minimal_set);
     }
 
 /**
@@ -75,7 +77,7 @@ set<pair<char,bool> > System::assign_values(const set<char> &varSet){
 }
 
 // ================================================================================================================================================
-// The following methods are for the purposes of generating configurations and changing them until the minimal error set is discovered
+// the following are methods that dance between vectors of booleans to configurations, as well as vectors and sets and unordered sets
 
 /**
  * @brief given an array of booleans, match them as the states of all the variables in the System instance's configuration
@@ -105,6 +107,9 @@ vector<bool> System::map_to_states(const set<pair<char,bool> > &config){
     }
     return states;
 }
+
+// ================================================================================================================================================
+// The following methods are for the purposes of generating configurations and changing them until the minimal error set is discovered
 
 /**
  * @brief recursive helper method to systematically change the configuration of a System until it breaks
@@ -168,7 +173,7 @@ set<pair<char,bool> > System::permute_until_break(int &guesses, const vector<boo
 set<pair<char,bool> > System::find_first_random_break(int &guesses, bool print){
 
     // first generate a random configuration of variable settings
-    set<pair<char,bool> > current_configuration = this->assign_values(Helper::convert_to_set(this->vars));
+    set<pair<char,bool> > current_configuration = this->assign_values(helper.convert_to_set(this->vars));
     guesses++;
 
     // get ahold of the on/off values of our variables as a vector of booleans

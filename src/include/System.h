@@ -2,7 +2,6 @@
 #define System_h
 
 #include "Helper.h"
-#include "PairHash.h"
 
 class System: public Helper
 {
@@ -15,15 +14,22 @@ public:
     std::set<std::pair<char, bool> > minimal_set;
 
     /* The minimal error set of our system, except in the form of an unordered set (for quicker searching) */
-    std::unordered_set<std::pair<char, bool>, PairHash> unordered_min;
+    std::unordered_set<std::pair<char, bool> > unordered_min;
 
     /* The total number of variables in our System, which equals vars.size() */
     const int numVars;
 
+    /* A Helper object to help with producing some calculations */
+    Helper helper;
+
+
+
     /* Constructor for the System, responsible for setting up the minimal error set as both an ordered and unordered set, as well as the vars and numVars members */
     System(std::vector<char> the_vars = {'A','B','C','D','E'});
 
-    /* Given a set of characters (representing variables), assign them on/off values */
+
+
+    /* Given a set of characters (representing variables), assign them on/off values to create a configuration */
     std::set<std::pair<char,bool> > assign_values(const std::set<char> &varSet);
 
     /* Given a configuration of variables set to certain values, print it */
@@ -32,11 +38,15 @@ public:
     /* Given an input configuration of variables set to certain values, see if it generates and error in the system */
     bool works(const std::set<std::pair<char,bool> > &configuration);
 
+
+
     /* Given a vector of booleans, map those on/off booleans to the variables of the System to generate a configuration */
     std::set<std::pair<char,bool> > map_to_config(std::vector<bool> states);
 
     /* Given a configuration, simply return a vector of the boolean values */
     std::vector<bool> map_to_states(const std::set<std::pair<char,bool> > &config);
+
+
 
     /* Recursive helper method to systematically brute force change the variable settings in a configuration until the System's minimal error set is contained */
     std::set<std::pair<char,bool> > permute_until_break(int &guesses, const std::vector<bool> &states, int start=0, bool print=false);
