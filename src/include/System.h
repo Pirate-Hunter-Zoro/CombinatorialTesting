@@ -13,9 +13,6 @@ public:
     /* The minimal error set of our system, which is the smallest set of variables set to configurations that causes the "error" in our System */
     std::set<std::pair<char, bool> > minimal_set;
 
-    /* The minimal error set of our system, except in the form of an unordered set (for quicker searching) */
-    std::unordered_set<std::pair<char, bool> > unordered_min;
-
     /* The total number of variables in our System, which equals vars.size() */
     const int numVars;
 

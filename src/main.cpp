@@ -7,33 +7,33 @@ int main()
 
 //=======================================================================================================
     // testing minimal error set searcher
-    // System my_system = System();
-    // for (const auto &chr: my_system.vars)
-    //     cout << chr << endl;
-    // cout << endl;
-    // for (const auto &couple: my_system.minimal_set)
-    //     cout << couple.first << ", " << couple.second << endl;
-    // cout << endl;
-    // int guesses = my_system.find_minimal_error_set(true);
-    // cout << endl << guesses << endl;
-    // cout << endl << endl << endl;
+    System my_system = System();
+    for (const auto &chr: my_system.vars)
+        cout << chr << endl;
+    cout << endl;
+    for (const auto &couple: my_system.minimal_set)
+        cout << couple.first << ", " << couple.second << endl;
+    cout << endl;
+    int guesses = my_system.find_minimal_error_set(true);
+    cout << endl << guesses << endl;
+    cout << endl << endl << endl;
 
 
 //=======================================================================================================
     // testing subset finder
-    // set<pair<char, bool> > configuration;
-    // srand(time(NULL));
-    // for (char c : my_system.vars){
-    //     configuration.insert({c, rand()%2==1});
-    // }
-    // cout << endl;
-    // cout << "Configuration" << endl;
-    // my_system.print_config(configuration);
-    // set<set<pair<char, bool> > > groups = Helper::subsets(configuration, 3);
-    // cout << endl << "Subsets of size 3:" << endl;
-    // for (const set<pair<char, bool> > &config : groups)
-    //     my_system.print_config(config);
-    // cout << endl << endl << endl;
+    set<pair<char, bool> > configuration;
+    srand(time(NULL));
+    for (char c : my_system.vars){
+        configuration.insert({c, rand()%2==1});
+    }
+    cout << endl;
+    cout << "Configuration" << endl;
+    my_system.print_config(configuration);
+    set<set<pair<char, bool> > > groups = Helper().subsets(configuration, 3);
+    cout << endl << "Subsets of size 3:" << endl;
+    for (const set<pair<char, bool> > &config : groups)
+        my_system.print_config(config);
+    cout << endl << endl << endl;
 
 //=======================================================================================================
     // testing coverage calculator

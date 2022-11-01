@@ -1,7 +1,6 @@
 #include "include/Helper.h"
 using namespace std;
 
-//================================================================================================================
 // Helper class methods
 
 /**
@@ -28,23 +27,6 @@ set<char> Helper::random_subset(const vector<char> &vars, const int &size){
     }
 
     return subset;
-}
-
-/**
- * @brief Given a generic ordered set, return an unordered set containing the same values that uses the specified hasher
- * 
- * @param config - a set of char/bool pairs 
- * @param hasher 
- * @return unordered_set<pair<char, bool>, Hasher> 
- */
-unordered_set<pair<char, bool>, PairHash> Helper::make_unordered(const set<pair<char, bool> > &config)
-{
-    // converts the ordered set into an unordered set with the same elements
-    unordered_set<pair<char, bool>, PairHash> unordered;
-    for (auto element : config){
-        unordered.insert(element);
-    }
-    return unordered;
 }
 
 /**

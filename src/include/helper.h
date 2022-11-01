@@ -8,10 +8,6 @@
 #include<ctime>
 #include<cmath>
 
-#include "PairHash.h"
-
-//================================================================================================================
-
 /* This is a class which will only contain static methods that will be useful to reference */
 class Helper{
 
@@ -19,9 +15,6 @@ public:
 
     /* A method to generate a random subset of a given size on a vector of characters */
     std::set<char> random_subset(const std::vector<char> &vars, const int &size);
-
-    /* A method to take in a set of items and return an unordered set of the same elements */
-    std::unordered_set<std::pair<char, bool>, PairHash> make_unordered(const std::set<std::pair<char, bool> > &config);
 
     /* A method to calculate the number of possible subsets of size k there are out of a population of n different elements */
     int choose(int n, int k);

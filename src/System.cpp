@@ -17,7 +17,6 @@ System::System(const vector<char> the_vars)
         // generate a random subset of the variables to make up the minimal error set, and randomly set each value to on or off for the configuration
         minimal_set = this->assign_values(helper.random_subset(the_vars, rand() % the_vars.size()));
         // create an unordered version for faster searching
-        unordered_min = helper.make_unordered(minimal_set);
     }
 
 /**
@@ -30,7 +29,7 @@ System::System(const vector<char> the_vars)
 bool System::works(const set<pair<char,bool> > &configuration){
     int found = 0;
     for (const auto &couple : configuration){
-        if (this->unordered_min.find(couple) != this->unordered_min.end()){
+        if (this->minimal_set.find(couple) != this->minimal_set.end()){
             // one of the elements in the minimal set was matched
             found++;
         }
