@@ -21,7 +21,7 @@ public:
 
     /* A method to take in a set of items and return an unordered set of the same elements */
     template <typename T, typename Hasher>
-    static std::unordered_set<T, Hasher> make_unordered(const std::set<T> &config);
+    static std::unordered_set<T, Hasher> make_unordered(const std::set<T> &config, Hasher hasher);
     
     /* A method to calculate the number of possible subsets of size k there are out of a population of n different elements */
     static int choose(int n, int k);
@@ -29,6 +29,10 @@ public:
     /* A method that, given a set of elements, returns a set of sets containing all possible subsets of the original set of a given size */
     template <typename T>
     static std::set<std::set<T> > subsets(std::set<T> &s, int size);
+
+    /* A method that, given a vector of elements, returns a set consisting of the same elements */
+    template <typename T>
+    static std::set<T> convert_to_set(const std::vector<T> &vec);
 
 };
 

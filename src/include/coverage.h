@@ -1,7 +1,7 @@
-#ifndef coverage_h
-#define coverage_h
+#ifndef Coverage_h
+#define Coverage_h
 
-#include "problem.h"
+#include "System.h"
 
 class Coverage: public System{
 

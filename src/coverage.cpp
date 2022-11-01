@@ -1,4 +1,4 @@
-#include "include/coverage.h"
+#include "include/Coverage.h"
 using namespace std;
 
 //=======================================================================================================
@@ -7,7 +7,6 @@ using namespace std;
 Coverage::Coverage(vector<char> the_vars)
     : System(the_vars)
     {
-
     }
 
 double Coverage::percentageCovered(set<set<pair<char, bool> > > config_set, int size){

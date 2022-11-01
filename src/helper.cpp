@@ -1,9 +1,17 @@
-#include "include/helper.h"
+#include "include/Helper.h"
 using namespace std;
 
 //================================================================================================================
 // Helper class methods
 
+/**
+ * @brief Given a generic vector, generate and return random subset of the elements, choosing as many elements as specified with size
+ * 
+ * @tparam T 
+ * @param vars 
+ * @param size 
+ * @return set<T> 
+ */
 template <typename T>
 set<T> Helper::random_subset(const vector<T> &vars, const int &size){
     // generate a subset of a given size
@@ -24,8 +32,17 @@ set<T> Helper::random_subset(const vector<T> &vars, const int &size){
     return subset;
 }
 
+/**
+ * @brief Given a generic ordered set, return an unordered set containing the same values that uses the specified hasher
+ * 
+ * @tparam T 
+ * @tparam Hasher 
+ * @param config 
+ * @param hasher 
+ * @return unordered_set<T, Hasher> 
+ */
 template <typename T, typename Hasher>
-unordered_set<T, Hasher> Helper::make_unordered(const set<T> &config)
+unordered_set<T, Hasher> Helper::make_unordered(const set<T> &config, Hasher hasher)
 {
     // converts the ordered set into an unordered set with the same elements
     unordered_set<T, Hasher> unordered;
@@ -35,6 +52,13 @@ unordered_set<T, Hasher> Helper::make_unordered(const set<T> &config)
     return unordered;
 }
 
+/**
+ * @brief Classic combinatorics - simply return the number of ways to choose k objects out of n total objects
+ * 
+ * @param n 
+ * @param k 
+ * @return int 
+ */
 int Helper::choose(int n, int k){
     // compute and return n choose k
 
@@ -61,11 +85,19 @@ int Helper::choose(int n, int k){
     return result;
 }
 
+/**
+ * @brief Given a generic set, return a set of all the possible subsets of a given size of this set
+ * 
+ * @tparam T 
+ * @param s 
+ * @param size 
+ * @return set<set<T> > 
+ */
 template <typename T>
 set<set<T> > Helper::subsets(set<T> &s, int size)
 {
     // this method WILL modify the configuration for the purposes of not having to make a bunch of copies
-    // if this is not preferred, remove the '&' in front of the 's'
+    // if this is not preferred, remove the '&' in front of the 's' here and in the Helper.h file
 
     set<set<pair<char, bool> > > all_subsets;
 
@@ -106,4 +138,19 @@ set<set<T> > Helper::subsets(set<T> &s, int size)
     all_subsets.insert(s);
 
     return all_subsets;
+}
+
+/**
+ * @brief Method to convert a generic vector into a set with the same elements
+ * 
+ * @tparam T 
+ * @param vec 
+ * @return set<T> 
+ */
+template<typename T> 
+set<T> Helper::convert_to_set(const vector<T> &vec){
+    set<T> the_set;
+    for (const auto item : vec)
+        the_set.insert(item);
+    return the_set;
 }
