@@ -1,4 +1,3 @@
-#include "include/coverage.h"
 #include "include/System.h"
 using namespace std;
 
