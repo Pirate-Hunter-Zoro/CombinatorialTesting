@@ -1,4 +1,5 @@
 #include "include/System.h"
+#include "include/CoverageCalculator.h"
 using namespace std;
 
 int main()
@@ -8,14 +9,17 @@ int main()
 //=======================================================================================================
     // testing minimal error set searcher
     System my_system = System();
-    for (const auto &chr: my_system.vars)
-        cout << chr << endl;
-    cout << endl;
-    for (const auto &couple: my_system.minimal_set)
-        cout << couple.first << ", " << couple.second << endl;
-    cout << endl;
+    cout << "Minimal Error Set:" << endl;
+    cout << "| ";
+    for (const auto &couple: my_system.minimal_set){
+        cout << "| ";
+        cout << couple.first << "," << couple.second;
+        cout << " | ";
+    }
+    cout << "|";
+    cout << endl << endl;
     int guesses = my_system.find_minimal_error_set(true);
-    cout << endl << guesses << endl;
+    cout << endl << "Guesses: " << guesses << endl;
     cout << endl << endl << endl;
 
 
@@ -37,34 +41,34 @@ int main()
 
 //=======================================================================================================
     // testing coverage calculator
-    // vector<char> these_vars{'A','B','C','D'};
-    // Coverage my_coverage = Coverage(these_vars);
-    // vector<vector<int> > settings{
-    //                                 {0,0,0,0},
-    //                                 {0,1,1,0},
-    //                                 {1,0,0,1},
-    //                                 {0,1,1,1}
-    //                             };
-    // set<set<pair<char, bool> > > config_set = my_coverage.map_to_config_set(settings);
+    vector<char> these_vars{'A','B','C','D'};
+    CoverageCalculator coverage_calculator = CoverageCalculator(these_vars);
+    vector<vector<int> > settings{
+                                    {0,0,0,0},
+                                    {0,1,1,0},
+                                    {1,0,0,1},
+                                    {0,1,1,1}
+                                };
+    set<set<pair<char, bool> > > config_set = coverage_calculator.map_to_config_set(settings);
     
-    // cout << "Variables:" << endl;
-    // for (auto ch : these_vars){
-    //     cout << ch << " ";
-    // }
-    // cout << endl << endl;
+    cout << "Variables:" << endl;
+    for (auto ch : these_vars){
+        cout << ch << " ";
+    }
+    cout << endl << endl;
 
-    // cout << "Configurations:" << endl;
-    // for (auto &vec : settings){
-    //     for (auto setting : vec){
-    //         cout << setting << " ";
-    //     }
-    //     cout << endl;
-    // }
-    // cout << endl;
+    cout << "Configurations:" << endl;
+    for (auto &vec : settings){
+        for (auto setting : vec){
+            cout << setting << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
 
-    // int size = 2;
-    // double percentage = 100.0 * my_coverage.percentageCovered(config_set, size);
-    // cout << "Combinatorial Coverage for Subsets of Size " << size << ": " << percentage << "%" << endl;
+    int size = 2;
+    double percentage = 100.0 * coverage_calculator.percentageCovered(config_set, size);
+    cout << "Combinatorial Coverage for Subsets of Size " << size << ": " << percentage << "%" << endl;
 
 
 //=======================================================================================================
