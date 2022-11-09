@@ -3,6 +3,7 @@
 
 #include "Helper.h"
 
+/** This class is capable of taking in a set of configurations and calculating what percentage of certain t-way faults are covered by the set of configurations */
 class CoverageCalculator {
 
 public:

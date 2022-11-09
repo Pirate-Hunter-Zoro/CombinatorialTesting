@@ -3,6 +3,7 @@
 
 #include "Helper.h"
 
+/** This is simply an object with a (secretly) known minimal error set that is causing a "problem", and has helper methods to simulate finding the minimal error set */
 class System: public Helper
 {
 public:
