@@ -1,5 +1,4 @@
 #include "include/CoveringArraySizeValidator.h"
-#include "include/System.h"
 
 using namespace std;
 
@@ -56,7 +55,7 @@ vector<vector<pair<char,bool> > > CoveringArraySizeValidator::allConfigs(){
     vector<vector<pair<char,bool> > > started;
     vector<pair<char,bool> > first_config;
     for (char c : the_vars){
-        first_config.insert({c, true});
+        first_config.push_back({c, true});
     }
     return this->recAllConfigs(first_config, started, 0);
 }

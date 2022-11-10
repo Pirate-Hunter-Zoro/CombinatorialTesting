@@ -2,6 +2,7 @@
 #define SizeCoverageCalculator_h
 
 #include "CoverageCalculator.h"
+#include "System.h"
 
 /** This class is capable of determining if, given a certain number of configurations, it is possible to achieve total t-way coverage with that many configurations */
 class CoveringArraySizeValidator{

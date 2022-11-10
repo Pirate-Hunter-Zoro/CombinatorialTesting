@@ -193,7 +193,7 @@ set<set<pair<char, bool> > > Helper::into_sets(vector<vector<pair<char, bool> > 
     set<set<pair<char,bool> > > set_of_sets;
     for (vector<pair<char,bool> > &vec : vector_set){
         set<pair<char,bool> > set_version;
-        for (pair<char,bool> couple : set_version){
+        for (pair<char,bool> couple : vec){
             set_version.insert(couple);
         }
         set_of_sets.insert(set_version);

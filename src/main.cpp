@@ -1,5 +1,5 @@
-#include "include/System.h"
 #include "include/CoverageCalculator.h"
+#include "include/CoveringArraySizeValidator.h"
 using namespace std;
 
 int main()
@@ -69,10 +69,19 @@ int main()
     int size = 2;
     double percentage = 100.0 * coverage_calculator.percentageCovered(config_set, size);
     cout << "Combinatorial Coverage for Subsets of Size " << size << ": " << percentage << "%" << endl;
-
+    cout << endl << endl << endl;
 
 //=======================================================================================================
 
+    // testing CoveringArraySizeValidator
+    CoveringArraySizeValidator coverage_validator = CoveringArraySizeValidator(2);
+    cout << "2 variables, 1 vector --> total 2-way coverage possible?" << endl;
+    cout << boolalpha << coverage_validator.covers(1, 2) << endl << endl;
+    cout << "2 variables, 4 vectors --> total 2-way coverage possible?" << endl;
+    cout << boolalpha << coverage_validator.covers(2, 2) << endl << endl;
+    cout << endl << endl << endl;
+
+//=======================================================================================================
 
     return 0;
 
