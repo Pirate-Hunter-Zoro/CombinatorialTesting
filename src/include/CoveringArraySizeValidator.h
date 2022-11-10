@@ -26,7 +26,7 @@ class CoveringArraySizeValidator{
     std::vector<std::vector<std::pair<char, bool> > > allConfigs();
 
     /** Recursive Hlper for generating all configurations */
-    std::vector<std::vector<std::pair<char, bool> > > recAllConfigs(std::vector<std::pair<char, bool> > base_line, std::vector<std::vector<std::pair<char, bool> > > &started, int explored);
+    std::vector<std::vector<std::pair<char, bool> > > recAllConfigs(std::vector<std::pair<char,bool> > current_config, std::vector<std::vector<std::pair<char, bool> > > &configs_found, int current_index);
 };
 
 #endif

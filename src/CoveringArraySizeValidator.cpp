@@ -69,21 +69,26 @@ vector<vector<pair<char,bool> > > CoveringArraySizeValidator::allConfigs(){
  * @param explored - which variable to try flipping
  * @return vector<vector<pair<char, bool> > > 
  */
-vector<vector<pair<char, bool> > > CoveringArraySizeValidator::recAllConfigs(vector<pair<char,bool> > base_line, vector<vector<pair<char, bool> > > &started, int explored)
+vector<vector<pair<char, bool> > > CoveringArraySizeValidator::recAllConfigs(vector<pair<char,bool> > current_config, vector<vector<pair<char, bool> > > &configs_found, int current_index)
 {
-    if (explored >= the_vars.size()){
+    if (current_index >= the_vars.size()){
         // we're done
-        return started;
+        return configs_found;
     }
-    
-}
+    // first, explore everything while keeping the value at current_index in current_config the same
+    this->recAllConfigs(current_config, configs_found, current_index+1);
 
-/**
- * 1111
- * 0(all rest)
- * 1(all rest)
- * 
- * 
- * 
- * 
- */
+    // now, try changing the value at current_index and then do another recursive call
+    pair<char, bool> altered_element; 
+    pair<char, bool> current_element = current_config.at(current_index);
+    altered_element.first = current_element.first;
+    altered_element.second = !current_element.second; // switch from on to off
+    // replace
+    current_config.at(current_index) = altered_element;
+
+    // recursive call again
+    this->recAllConfigs(current_config, configs_found, current_index+1);
+
+    // finally, return the collection of all possible configurations
+    return configs_found;
+}
