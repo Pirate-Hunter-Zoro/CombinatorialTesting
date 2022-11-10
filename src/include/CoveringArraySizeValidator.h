@@ -11,6 +11,9 @@ class CoveringArraySizeValidator{
     /** The character value for A */
     static const int START_CHAR_VALUE = 65;
 
+    /** Reference to the most recent set of covering arrays that achieved a certain coverage */
+    std::vector<std::vector<std::vector<std::pair<char,bool> > > > most_recent_covering_arrays;
+
     /** The number of variables this Validator is concerned with considering */
     int num_vars;
 

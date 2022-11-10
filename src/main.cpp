@@ -98,6 +98,8 @@ int main()
     cout << boolalpha << coverage_validator.covers(5, 2) << endl << endl;
     cout << "5 variables, 6 vectors --> total 2-way coverage possible?" << endl;
     cout << boolalpha << coverage_validator.covers(6, 2) << endl << endl;
+    // how many covering arrays were found?
+    cout << coverage_validator.most_recent_covering_arrays.size();
     cout << endl << endl << endl;
 
 //=======================================================================================================
