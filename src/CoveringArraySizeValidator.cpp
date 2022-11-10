@@ -1,4 +1,5 @@
 #include "include/CoveringArraySizeValidator.h"
+#include "include/System.h"
 
 using namespace std;
 
@@ -14,3 +15,75 @@ CoveringArraySizeValidator::CoveringArraySizeValidator(int num_vars)
             the_vars.push_back(char(START_CHAR_VALUE+i));
         }
     }
+
+/**
+ * @brief Method to return whether it is possible to achieve total coverage of all possible t-way faults given num_vectors configurations in a covering array
+ * 
+ * @param num_vectors 
+ * @param t 
+ * @return true 
+ * @return false 
+ */
+bool CoveringArraySizeValidator::covers(int num_vectors, int t){
+    Helper helper = Helper();
+    System system = System(the_vars);
+    CoverageCalculator coverage_calculator = CoverageCalculator(the_vars);
+    // we need to get our hands on every possible collection of num_vectors configurations
+    // first, what are all possible configurations?
+    vector<vector<pair<char,bool> > > all_configs = this->allConfigs();
+    vector<vector<vector<pair<char,bool> > > > covering_arrays_of_size = helper.subvectors(all_configs, num_vectors);
+
+    for (auto covering_array : covering_arrays_of_size){
+        // look at every possible covering array of the given size 'num_vectors', and calculate its t-way coverage
+        set<set<pair<char,bool> > > to_sets_version = helper.into_sets(covering_array);
+        if (helper.AreSame(coverage_calculator.percentageCovered(to_sets_version, t), 1.0)){
+            for (const auto &config : to_sets_version){
+                system.print_config(config);
+            }
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * @brief Method to generate all possible configurations
+ * 
+ * @return vector<vector<pair<char,bool> > > 
+ */
+vector<vector<pair<char,bool> > > CoveringArraySizeValidator::allConfigs(){
+    vector<vector<pair<char,bool> > > started;
+    vector<pair<char,bool> > first_config;
+    for (char c : the_vars){
+        first_config.insert({c, true});
+    }
+    return this->recAllConfigs(first_config, started, 0);
+}
+
+/**
+ * @brief Recursive helper to generate all possible configurations
+ * 
+ * @param base_line - current configuration to change
+ * @param started - set of configurations
+ * @param explored - which variable to try flipping
+ * @return vector<vector<pair<char, bool> > > 
+ */
+vector<vector<pair<char, bool> > > CoveringArraySizeValidator::recAllConfigs(vector<pair<char,bool> > base_line, vector<vector<pair<char, bool> > > &started, int explored)
+{
+    if (explored >= the_vars.size()){
+        // we're done
+        return started;
+    }
+    
+}
+
+/**
+ * 1111
+ * 0(all rest)
+ * 1(all rest)
+ * 
+ * 
+ * 
+ * 
+ */

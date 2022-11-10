@@ -116,6 +116,61 @@ set<set<pair<char, bool> > > Helper::subsets(set<pair<char,bool> > &s, int size)
 }
 
 /**
+ * @brief Given a vector of vectors, return a vector of all the possible subvectors of a given size of this vector of vectors
+ *
+ * @param s
+ * @param size
+ * @return std::vector<std::vector<std::vector<char, bool> > >
+ */
+std::vector<std::vector<std::vector<std::pair<char, bool> > > > Helper::subvectors(std::vector<std::vector<std::pair<char, bool> > > &s, int size){
+    vector<vector<vector<pair<char, bool> > > > all_subvectors;
+
+    if (size > s.size())
+    {
+        // no ways to do that
+        return all_subvectors;
+    }
+
+    if (size == s.size())
+    {
+        // only one way to do that
+        all_subvectors.push_back(s);
+        return all_subvectors;
+    }
+    else if (size == 0)
+    {
+        // only one way to do that
+        vector<vector<pair<char, bool> > > empty;
+        all_subvectors.push_back(empty);
+        return all_subvectors;
+    }
+
+    // all of the base cases are done now
+
+    while (s.size() > size)
+    {
+        // take out the first element and find all subsets of size-1 remaining
+        // then tack on this first element
+        // i.e. one iteration of this while loop finds all possible subsets of the given size where the first element MUST be included
+        vector<pair<char, bool> > first = *s.begin();
+        s.erase(s.begin());
+        vector<vector<pair<char, bool> > > copy = s;
+        vector<vector<vector<pair<char, bool> > > > lastSubvectors = this->subvectors(copy, size - 1);
+        for (auto subvector : lastSubvectors)
+        {
+            // I would copy by address but for some reason each subset is 'const' and I cannot figure out how to change that...
+            subvector.insert(subvector.begin(), first);
+            all_subvectors.push_back(subvector);
+        }
+    }
+
+    // now that vec.size() == size, one possible subset of size 'size' IS s
+    all_subvectors.push_back(s);
+
+    return all_subvectors;
+}
+
+/**
  * @brief Method to convert a generic vector into a set with the same elements
  * 
  * @tparam char
@@ -127,4 +182,22 @@ set<char> Helper::convert_to_set(const vector<char> &vec){
     for (const auto item : vec)
         the_set.insert(item);
     return the_set;
+}
+
+/**
+ * @brief Method to convert from vector of vectors into set of sets
+ * 
+ * @return set<set<pair<char, bool> > > 
+ */
+set<set<pair<char, bool> > > Helper::into_sets(vector<vector<pair<char, bool> > > vector_set){
+    set<set<pair<char,bool> > > set_of_sets;
+    for (vector<pair<char,bool> > &vec : vector_set){
+        set<pair<char,bool> > set_version;
+        for (pair<char,bool> couple : set_version){
+            set_version.insert(couple);
+        }
+        set_of_sets.insert(set_version);
+    }
+
+    return set_of_sets;
 }

@@ -22,6 +22,11 @@ class CoveringArraySizeValidator{
     /** Method to determine if num_vectors configurations of a given size are sufficient to achieve total t-way coverage */
     bool covers(int num_vectors, int t);
 
+    /** Generate every possible configuration of the variables */
+    std::vector<std::vector<std::pair<char, bool> > > allConfigs();
+
+    /** Recursive Hlper for generating all configurations */
+    std::vector<std::vector<std::pair<char, bool> > > recAllConfigs(std::vector<std::pair<char, bool> > base_line, std::vector<std::vector<std::pair<char, bool> > > &started, int explored);
 };
 
 #endif
