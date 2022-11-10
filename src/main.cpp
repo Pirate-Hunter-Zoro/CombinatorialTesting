@@ -74,11 +74,22 @@ int main()
 //=======================================================================================================
 
     // testing CoveringArraySizeValidator
+
+    // first have 2 variables
     CoveringArraySizeValidator coverage_validator = CoveringArraySizeValidator(2);
     cout << "2 variables, 1 vector --> total 2-way coverage possible?" << endl;
     cout << boolalpha << coverage_validator.covers(1, 2) << endl << endl;
     cout << "2 variables, 4 vectors --> total 2-way coverage possible?" << endl;
-    cout << boolalpha << coverage_validator.covers(2, 2) << endl << endl;
+    cout << boolalpha << coverage_validator.covers(4, 2) << endl << endl;
+
+    // now have 4 variables
+    coverage_validator = CoveringArraySizeValidator(4);
+    cout << "4 variables, 6 vectors --> total 2-way coverage possible?" << endl;
+    cout << boolalpha << coverage_validator.covers(6, 2) << endl << endl;
+    cout << "4 variables, 5 vectors --> total 2-way coverage possible?" << endl;
+    cout << boolalpha << coverage_validator.covers(5, 2) << endl << endl;
+    cout << "4 variables, 4 vectors --> total 2-way coverage possible?" << endl;
+    cout << boolalpha << coverage_validator.covers(4, 2) << endl << endl;
     cout << endl << endl << endl;
 
 //=======================================================================================================

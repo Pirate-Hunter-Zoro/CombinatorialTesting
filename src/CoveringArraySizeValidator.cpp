@@ -30,6 +30,7 @@ bool CoveringArraySizeValidator::covers(int num_vectors, int t){
     // we need to get our hands on every possible collection of num_vectors configurations
     // first, what are all possible configurations?
     vector<vector<pair<char,bool> > > all_configs = this->allConfigs();
+    set<set<pair<char, bool> > > to_sets_configs = helper.into_sets(all_configs);
     vector<vector<vector<pair<char,bool> > > > covering_arrays_of_size = helper.subvectors(all_configs, num_vectors);
 
     for (auto covering_array : covering_arrays_of_size){
@@ -72,6 +73,7 @@ vector<vector<pair<char, bool> > > CoveringArraySizeValidator::recAllConfigs(vec
 {
     if (current_index >= the_vars.size()){
         // we're done
+        configs_found.push_back(current_config);
         return configs_found;
     }
     // first, explore everything while keeping the value at current_index in current_config the same
