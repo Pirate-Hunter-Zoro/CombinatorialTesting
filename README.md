@@ -6,6 +6,7 @@ In addition, given a set of configurations, with all variables set to different 
 Another feature of this application is, given a certain number of covering arrays to work with, is it possible to achieve total t-way coverage? That is, when a CoveringArraySizeValidator object, with n variables as its argument constructor, has its 'covers' method called with a given number of vectors and fault size, are all possible minimal error sets of size 'fault size' covered by any possible collection of six configurations?<br>
 <br>
 Professor Thiago Serra, of Bucknell University at the time of this writing, utilized integer programming which found 2-way coverage for larger numbers of variables, from 7 to 15. My program uses brute force, which is far from optimal and incapable of finding covering arrays for these sizes in a reasonable amount of time.<br> 
+<br>
 Covering for 11 parameters using 7 arrays:<br>
 0 0 0 1 0 0 0 1 0 1 0 <br>
 0 1 0 0 1 1 0 0 1 0 0 <br>
