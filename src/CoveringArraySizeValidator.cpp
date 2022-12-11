@@ -45,8 +45,7 @@ bool CoveringArraySizeValidator::covers(int num_vectors, int t){
                 system.print_config(config);
             }
             cout << endl;
-            most_recent_covering_arrays.push_back(covering_array);
-            covered = true;
+            break;
         }
     }
 
